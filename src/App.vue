@@ -1,16 +1,16 @@
 <template>
   <main>
-    <!-- <div class="overlay">
+    <div v-if="showModal" class="overlay">
       <div class="modal">
         <textarea name="notes" id="notes"></textarea>
         <button>Add note</button>
-        <button class="close">Close</button>
+        <button @click="showModal = false" class="close">Close</button>
       </div>
-    </div> -->
+    </div>
     <div class="container">
       <header>
         <h1>Notes</h1>
-        <button>+</button>
+        <button @click="showModal = true">+</button>
       </header>
       <div class="cards-container">
         <div class="card">
@@ -25,6 +25,12 @@
     </div>
   </main>
 </template>
+
+<script setup>
+  import {ref} from "vue";
+
+  const showModal = ref(false);
+</script>
 
 <style scoped>
   .container {
