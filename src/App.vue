@@ -2,7 +2,8 @@
   <main>
     <div v-if="showModal" class="overlay">
       <div class="modal">
-        <textarea v-model="newNote" name="notes" id="notes"></textarea>
+        <textarea v-model.trim="newNote" name="notes" id="notes"></textarea>
+        <p v-if="errorMessage">{{ errorMessage }}</p>
         <button @click="addNote">Add note</button>
         <button @click="showModal = false" class="close">Close</button>
       </div>
@@ -31,6 +32,7 @@
 
   const showModal = ref(false);
   const newNote = ref("");
+  const errorMessage = ref("");
   const notes = ref([]);
 
   function getRandomLightColor() {
@@ -38,6 +40,11 @@
   }
 
   const addNote = () => {
+    if (newNote.value.length == 0){
+      errorMessage.value = "Your note cannot be blank!";
+      return;
+    }
+
     notes.value.push({
       id: Math.floor(Math.random() * 1000000),
       text: newNote.value,
@@ -47,6 +54,7 @@
 
     newNote.value = "";
     showModal.value = false;
+    errorMessage.value = "";
   }
 </script>
 
@@ -151,10 +159,9 @@
   }
 
   .modal p {
-    margin-left: auto;
+    color: rgb(190, 10, 10);
     font-size: 20px;
-    z-index: 100000;
-    cursor: pointer;
+    text-align: center;
   }
 
   .modal .close {
